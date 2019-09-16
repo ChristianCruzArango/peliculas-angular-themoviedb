@@ -1,0 +1,31 @@
+import { Component, OnInit } from '@angular/core';
+import { PeliculasService } from '../../services/peliculas.service';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-pelicula',
+  templateUrl: './pelicula.component.html',
+  styleUrls: ['./pelicula.component.css']
+})
+export class PeliculaComponent implements OnInit {
+
+  pelicula:any;
+  regresarA:string ="";
+  busqueda:string = "";
+
+  constructor(public _pservices:PeliculasService,private router:ActivatedRoute) {
+    this.router.params.subscribe(parametros=>{
+      this.regresarA = parametros.pag;
+
+        if(parametros.busqueda){
+          this.busqueda = parametros.busqueda;
+        }
+
+      this._pservices.getPelicula(parametros.id).subscribe(pelicula=>this.pelicula=pelicula);
+    });
+  }
+
+  ngOnInit() {
+  }
+
+}
